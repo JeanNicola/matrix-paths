@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Matrix Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Inline&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body ng-app="app">
+
+    <header class="header">
+        <h1 class="main-title">WELCOME&nbsp;&nbsp;TO&nbsp;&nbsp;MATRIX&nbsp;&nbsp;PATHS&nbsp;&nbsp;!</h1>
+    </header>
+
+    <main>
+
+        <div class="matrix-container" ng-controller="matrixController">
+
+            <div class="matrix" ng-style="{'grid-template-columns': 'repeat(' + numberOfColumns +', 50px)'}">
+                <div ng-repeat="cell in matrixUI" ng-style="{'background-color': cell.color}" class="matrix-cell">
+                    <p>{{cell.value}}</p>
+                    <span class="cell-buttons">
+                        <i  class="material-icons increment" ng-click="incrementCell($index)">expand_less</i>
+                        <i  class="material-icons decrement" ng-click="decrementCell($index)">expand_more</i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="dimension-buttons">
+                <div ng-style="{'width': (numberOfColumns > 1) ? (numberOfColumns * 50) + (numberOfColumns * 10) + 'px' : '100px'}">
+                        <a ng-click="removeRow()" style="height:40px;width:40px"
+                        class="dimension-icon btn-floating btn-large waves-effect red">
+                        <i style="line-height:40px" class="material-icons">remove</i>
+                    </a>
+                    <a ng-click="addRow()" style="height:40px;width:40px"
+                        class="dimension-icon btn-floating btn-large waves-effect red">
+                        <i style="line-height:40px" class="material-icons">add</i>
+                    </a>
+                    <P>&nbsp;R</P>
+                </div>
+
+                <div ng-style="{'width': (numberOfColumns > 1) ? (numberOfColumns * 50) + (numberOfColumns * 10) + 'px' : '100px'}">
+                    <a ng-click="removeColumn()" style="height:40px;width:40px"
+                        class="dimension-icon btn-floating btn-large waves-effect blue darken-1">
+                        <i style="line-height:40px" class="material-icons">remove</i>
+                    </a>
+                    <a ng-click="addColumn()" style="height:40px;width:40px"
+                        class="dimension-icon btn-floating btn-large waves-effect blue darken-1">
+                        <i style="line-height:40px" class="material-icons">add</i>
+                    </a>
+                    <p>&nbsp;C</p>
+                </div>
+
+            </div>
+
+            <div class="matrix-options">
+                    <a ng-click="findMinPath()" class="waves-effect waves-light btn">FIND MIN PATH</a>
+                    <a ng-click="resetMatrix()" class="waves-effect waves-light btn">RESET</a>
+                    <a ng-click="fillMatrix()" class="waves-effect waves-light btn">FILL CELLS</a>
+            </div>
+
+
+        </div>
+
+    </main>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
+<script src="./js/algorithms.js"></script>
+<script src="./js/script.js"></script>
+
+</html>
