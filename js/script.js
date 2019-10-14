@@ -5,6 +5,7 @@ app.controller('matrixController', function($scope, $timeout) {
 
     $scope.numberOfRows = 3;
     $scope.numberOfColumns = 3;
+    $scope.tracingPath = false;
     $scope.matrixUI = [
         {
             value: 1,
@@ -72,6 +73,7 @@ app.controller('matrixController', function($scope, $timeout) {
         $scope.numberOfColumns--;
 
         for (var i = 0; i < $scope.numberOfRows; i++) {
+            $scope.matrix.pop()
             $scope.matrixUI.pop()
         }
 
@@ -101,6 +103,7 @@ app.controller('matrixController', function($scope, $timeout) {
         $scope.numberOfRows--;
 
         for (var i = 0; i < $scope.numberOfColumns; i++) {
+            $scope.matrix.pop()
             $scope.matrixUI.pop()
         }
 
@@ -108,31 +111,34 @@ app.controller('matrixController', function($scope, $timeout) {
 
     $scope.incrementCell = function($index) {
 
-        if ($scope.matrix[$index] >= 99) return;
+        if ($scope.matrix[$index] >= 99 || $scope.tracingPath) return;
         $scope.matrix[$index] += 1;
         $scope.matrixUI[$index].value += 1;
     }
 
     $scope.decrementCell = function($index) {
 
-        if ($scope.matrix[$index] <= 1) return;
+        if ($scope.matrix[$index] <= 1 || $scope.tracingPath) return;
         $scope.matrix[$index] -= 1;
         $scope.matrixUI[$index].value -= 1;
     }
 
     $scope.findMinPath = function() {
-
+        
         $scope.resetMatrixColors();
+
+        $scope.tracingPath = true;
 
        var path = findMinPath($scope.matrix, $scope.numberOfColumns, $scope.numberOfRows);
 
        for (var i = 0; i < path.length; i++) {
-           setPathColors(i);
+           setPathColors(i, path.length - 1);
        }
 
-       function setPathColors(i) {
+       function setPathColors(i, last) {
             $timeout(function() {
                 $scope.matrixUI[path[i]].color = '#8bc34a';
+                if (i === last) $scope.tracingPath = false;
             }, (200 * i))
        }
     }
